@@ -1,5 +1,5 @@
-import Card from './components/Card'
+import Card from './components/Card.vue';
 
-Nova.booting((app, store) => {
-  app.component('info-card', Card)
-})
+Nova.booting((Vue, router, store) => {
+  Vue.component('info-card', Card);
+});

@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Build artifacts (werden durch npm run build neu generiert)
+# Sie können wählen, ob Sie /dist committen oder nicht
+# Option 1: dist NICHT committen (empfohlen für Entwicklung)
+/dist
+
+# Option 2: dist committen (empfohlen für Produktion/Deployment)
+# Dann diese Zeile auskommentieren oder löschen
+
+# IDE
+/.idea
+/.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Laravel/PHP
+*.log
+.env
+.env.backup
+.phpunit.result.cache
+
+# NPM
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock

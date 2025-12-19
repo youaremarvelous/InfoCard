@@ -13,27 +13,67 @@ class InfoCard extends Card
      * @var string
      */
     public $width = 'full';
-    public $height = 'fixed';
+    
+    /**
+     * The height of the card.
+     *
+     * @var string
+     */
+    public $height = 'auto';
 
+    /**
+     * Get customer data and configuration
+     *
+     * @return $this
+     */
     public function getCustomerLogo()
     {
         $setting = Setting::first();
-        return $this->withMeta(['customerLogo' => url('/').'/storage/'.$setting->customer_logo,
-                                'serverVersion' => $setting->server_version,
-                                'companyName' => $setting->company_name,
-                                'administrator' => $setting->administrator,
-                                'instance_guid' => $setting->instance_guid,
-                                'userName' => auth()->user()->name,
-                                'welcomeMessage' => __('Welcome back').' ',
-                                'serverVersionCaption' => __('Server Version:'),
-                                'administratorCaption' => __('Administrator:'),
-                                'onlineHelpCaption' => __('Online Help'),
-                                'imprintCaption' => __('Imprint'),
-                                'privacyCaption' => __('Privacy'),
-                                'onlineHelpURL' => $setting->help_url,
-                                'imprintURL' => $setting->imprint_url,
-                                'privacyURL' => $setting->privacy_url,
-                            ]);
+        
+        return $this->withMeta([
+            'customerLogo' => $setting->customer_logo 
+                ? url('/') . '/storage/' . $setting->customer_logo 
+                : null,
+            'serverVersion' => $setting->server_version ?? 'N/A',
+            'companyName' => $setting->company_name ?? 'Your Company',
+            'administrator' => $setting->administrator ?? 'Admin',
+            'instanceGuid' => $setting->instance_guid ?? null,
+            'userName' => auth()->user()->name ?? 'User',
+            'userEmail' => auth()->user()->email ?? '',
+            
+            // Translations with time-based greeting
+            'welcomeMessage' => $this->getGreeting(),
+            'serverVersionCaption' => __('Server Version'),
+            'administratorCaption' => __('Administrator'),
+            'companyCaption' => __('Company'),
+            'onlineHelpCaption' => __('Online Help'),
+            'imprintCaption' => __('Imprint'),
+            'privacyCaption' => __('Privacy'),
+            'documentationCaption' => __('Documentation'),
+            
+            // URLs
+            'onlineHelpURL' => $setting->help_url ?? null,
+            'imprintURL' => $setting->imprint_url ?? null,
+            'privacyURL' => $setting->privacy_url ?? null,
+        ]);
+    }
+
+    /**
+     * Get time-based greeting
+     *
+     * @return string
+     */
+    protected function getGreeting()
+    {
+        $hour = now()->hour;
+        
+        if ($hour >= 5 && $hour < 12) {
+            return __('Good morning');
+        } elseif ($hour >= 12 && $hour < 18) {
+            return __('Hello');
+        } else {
+            return __('Good evening');
+        }
     }
 
     /**

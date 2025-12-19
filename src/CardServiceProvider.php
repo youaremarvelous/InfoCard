@@ -20,6 +20,9 @@ class CardServiceProvider extends ServiceProvider
             $this->routes();
         });
 
+        // Load JSON translations
+        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
+
         Nova::serving(function (ServingNova $event) {
             Nova::script('info-card', __DIR__.'/../dist/js/card.js');
             Nova::style('info-card', __DIR__.'/../dist/css/card.css');
@@ -38,8 +41,8 @@ class CardServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova'])
-                ->prefix('nova-vendor/info-card')
-                ->group(__DIR__.'/../routes/api.php');
+            ->prefix('nova-vendor/info-card')
+            ->group(__DIR__.'/../routes/api.php');
     }
 
     /**
